@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,8 +33,27 @@ public class MateComments {
     private Mate mate;
 
     private String comment;
-    private Integer like;
+    @Column(name = "mate_comments_like")
+    private Integer mateCommentsLike;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
+
+    @Getter
+    @OneToMany(mappedBy = "mateComments", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MateCommentsLike> mateCommentsLikes;
+    public void setMateCommentsLike(Integer mateCommentsLike) {
+        this.mateCommentsLike = mateCommentsLike;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
 }

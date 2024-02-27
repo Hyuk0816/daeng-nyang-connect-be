@@ -26,4 +26,10 @@ public class MateBoardLike {
     @ManyToOne
     @JoinColumn(name = "mate_board_idx")
     private Mate mate;
+
+    public MateBoardLike(Mate mate, User user) {
+        this.mate = mate;
+        this.user = user;
+    }
+
 }

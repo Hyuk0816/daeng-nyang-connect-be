@@ -1,0 +1,303 @@
+-- TIPS 테이블
+CREATE TABLE `tips` (
+    `tips_board_idx` BIGINT NOT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `title` VARCHAR(20) NULL,
+    `contents` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `category` VARCHAR(20) NULL,
+    `like` INT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`tips_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- SHOWANDMATECOMMENTS 테이블
+CREATE TABLE `ShowAndMateComments` (
+    `show_comments_idx` BIGINT NOT NULL,
+    `contents` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `like` INT NULL,
+    `show_board_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`show_comments_idx`),
+    FOREIGN KEY (`show_board_idx`) REFERENCES `show` (`show_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- SHOWBOARDLIKE 테이블
+CREATE TABLE `ShowBoardLike` (
+    `show_board_like_idx` BIGINT NOT NULL,
+    `show_board_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`show_board_like_idx`),
+    FOREIGN KEY (`show_board_idx`) REFERENCES `show` (`show_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- SHOWCOMMENTSLIKE 테이블
+CREATE TABLE `ShowCommentsLike` (
+    `show_comments_like_idx` BIGINT NOT NULL,
+    `show_comments_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`show_comments_like_idx`),
+    FOREIGN KEY (`show_comments_idx`) REFERENCES `ShowAndMateComments` (`show_comments_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- LOSTCOMMENTS 테이블
+CREATE TABLE `lostComments` (
+    `lost_comments_idx` BIGINT NOT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `contents` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `lost_board_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`lost_comments_idx`),
+    FOREIGN KEY (`lost_board_idx`) REFERENCES `lost` (`lost_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- MYPAGE 테이블
+CREATE TABLE `mypage` (
+    `my_page_idx` BIGINT NOT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `city` VARCHAR(20) NULL,
+    `town` VARCHAR(20) NULL,
+    `gender` VARCHAR(20) NULL,
+    `mobile` VARCHAR(20) NULL,
+    `experience` VARCHAR(20) NULL,
+    `info` LONGTEXT NULL,
+    `img` JSON NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`my_page_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- ANIMAL 테이블
+CREATE TABLE `Animal` (
+    `animal_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    `animal_name` VARCHAR(20) NULL,
+    `age` INT NULL,
+    `gender` VARCHAR(20) NULL,
+    `disease` VARCHAR(20) NULL,
+    `kind` VARCHAR(20) NULL,
+    `adoption_date` DATE NULL,
+    `training` VARCHAR(20) NULL,
+    `neutering` BOOLEAN NULL,
+    `contents` LONGTEXT NULL,
+    `health_check` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `adoption_status` ENUM('status1', 'status2') NULL, -- 수정 필요
+    `like` INT NULL,
+    PRIMARY KEY (`animal_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- TIPSCOMMENTS 테이블
+CREATE TABLE `tipsComments` (
+    `tips_comments_idx` BIGINT NOT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `contents` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `like` INT NULL,
+    `tip_board_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`tips_comments_idx`),
+    FOREIGN KEY (`tip_board_idx`) REFERENCES `tips` (`tips_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- TIPSCOMMENTSLIKE 테이블
+CREATE TABLE `tipsCommentsLike` (
+    `tip_comments_like_idx` BIGINT NOT NULL,
+    `tips_comments_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`tip_comments_like_idx`),
+    FOREIGN KEY (`tips_comments_idx`) REFERENCES `tipsComments` (`tips_comments_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- TIPSBOARDLIKE 테이블
+CREATE TABLE `tipsBoardLike` (
+    `tip_board_like_idx` BIGINT NOT NULL,
+    `tip_board_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`tip_board_like_idx`),
+    FOREIGN KEY (`tip_board_idx`) REFERENCES `tips` (`tips_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- LOST 테이블
+CREATE TABLE `lost` (
+    `lost_board_idx` BIGINT NOT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `title` VARCHAR(20) NULL,
+    `contents` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`lost_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- REVIEW 테이블
+CREATE TABLE `review` (
+    `review_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    `animal_idx` BIGINT NOT NULL,
+    `title` VARCHAR(20) NULL,
+    `contents` LONGTEXT NULL,
+    `like` INT NULL,
+    `created_at` TIMESTAMP NULL,
+    PRIMARY KEY (`review_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`),
+    FOREIGN KEY (`animal_idx`) REFERENCES `Animal` (`animal_idx`)
+);
+
+-- SHOW 테이블
+CREATE TABLE `show` (
+    `show_board_idx` BIGINT NOT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `title` VARCHAR(20) NULL,
+    `contents` LONGTEXT NULL,
+    `created_at` TIMESTAMP NULL,
+    `category` VARCHAR(20) NULL,
+    `like` INT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`show_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- REVIEW_COMMNETS 테이블
+CREATE TABLE `review_commnets` (
+    `review_contents_idx` BIGINT NOT NULL,
+    `review_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    `contents` VARCHAR(20) NULL,
+    `like` INT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `created_at` TIMESTAMP NULL,
+    PRIMARY KEY (`review_contents_idx`),
+    FOREIGN KEY (`review_idx`) REFERENCES `review` (`review_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- REVIEW_LIKE 테이블
+CREATE TABLE `review_like` (
+    `review_board_like_idx` BIGINT NOT NULL,
+    `review_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`review_board_like_idx`),
+    FOREIGN KEY (`review_idx`) REFERENCES `review` (`review_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- REVIEW_COMMENTS_LIKE 테이블
+CREATE TABLE `review_comments_like` (
+    `review_comments_like_idx` BIGINT NOT NULL,
+    `review_contents_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`review_comments_like_idx`),
+    FOREIGN KEY (`review_contents_idx`) REFERENCES `review_commnets` (`review_contents_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- LOST_BOARD_LIKE 테이블
+CREATE TABLE `lost_board_like` (
+    `lost_board_like_idx` BIGINT NOT NULL,
+    `lost_board_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`lost_board_like_idx`),
+    FOREIGN KEY (`lost_board_idx`) REFERENCES `lost` (`lost_board_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- LOST_COMMENTS_LIKE 테이블
+CREATE TABLE `lost_comments_like` (
+    `lost_comments_like_idx` BIGINT NOT NULL,
+    `lost_comments_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`lost_comments_like_idx`),
+    FOREIGN KEY (`lost_comments_idx`) REFERENCES `lostComments` (`lost_comments_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`)
+);
+
+-- ANIMAL_IMAGE 테이블
+CREATE TABLE `animal_image` (
+    `image_idx` BIGINT NOT NULL,
+    `url` LONGTEXT NULL,
+    `animal_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`image_idx`),
+    FOREIGN KEY (`animal_idx`) REFERENCES `Animal` (`animal_idx`)
+);
+
+-- REVIEW_IMAGE 테이블
+CREATE TABLE `review_image` (
+    `image_idx` BIGINT NOT NULL,
+    `url` LONGTEXT NULL,
+    `review_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`image_idx`),
+    FOREIGN KEY (`review_idx`) REFERENCES `review` (`review_idx`)
+);
+
+-- LOST_IMAGE 테이블
+CREATE TABLE `lost_image` (
+    `image_idx` BIGINT NOT NULL,
+    `url` LONGTEXT NULL,
+    `lost_board_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`image_idx`),
+    FOREIGN KEY (`lost_board_idx`) REFERENCES `lost` (`lost_board_idx`)
+);
+
+-- SHOW_IMAGE 테이블
+CREATE TABLE `show_image` (
+    `image_idx` BIGINT NOT NULL,
+    `url` LONGTEXT NULL,
+    `show_board_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`image_idx`),
+    FOREIGN KEY (`show_board_idx`) REFERENCES `show` (`show_board_idx`)
+);
+
+-- TIPS_IMAGE 테이블
+CREATE TABLE `tips_image` (
+    `image_idx` BIGINT NOT NULL,
+    `url` LONGTEXT NULL,
+    `tips_board_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`image_idx`),
+    FOREIGN KEY (`tips_board_idx`) REFERENCES `tips` (`tips_board_idx`)
+);
+
+-- ANIMAL_COMMENTS 테이블
+CREATE TABLE `Animal_commnets` (
+    `animal_contents_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    `contents` VARCHAR(20) NULL,
+    `like` INT NULL,
+    `nickname` VARCHAR(20) NULL,
+    `created_at` TIMESTAMP NULL,
+    `animal_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`animal_contents_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`),
+    FOREIGN KEY (`animal_idx`) REFERENCES `Animal` (`animal_idx`)
+);
+
+-- ANIMAL_LIKE 테이블
+CREATE TABLE `Animal_like` (
+    `animal__board_like_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    `animal_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`animal__board_like_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`),
+    FOREIGN KEY (`animal_idx`) REFERENCES `Animal` (`animal_idx`)
+);
+
+-- ANIMAL_COMMENTS_LIKE 테이블
+CREATE TABLE `Animal_comments_like` (
+    `animal_comments_like_idx` BIGINT NOT NULL,
+    `user_idx` BIGINT NOT NULL,
+    `review_contents_idx` BIGINT NOT NULL,
+    PRIMARY KEY (`animal_comments_like_idx`),
+    FOREIGN KEY (`user_idx`) REFERENCES `user` (`user_idx`),
+    FOREIGN KEY (`review_contents_idx`) REFERENCES `Animal_commnets` (`animal_contents_idx`)
+);

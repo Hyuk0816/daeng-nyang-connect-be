@@ -31,7 +31,9 @@ public class ReviewComments {
     private Review review;
 
     private String comment;
-    private Integer like;
+
+    @Column(name = "review_comment_like")
+    private Integer reviewCommentLike;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

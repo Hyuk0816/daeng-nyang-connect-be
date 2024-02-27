@@ -1,6 +1,7 @@
 package com.git.backend.daeng_nyang_connect.review.board.entity;
 
-import com.git.backend.daeng_nyang_connect.animal.board.entity.Animal;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.git.backend.daeng_nyang_connect.animal.entity.AdoptedAnimal;
 import com.git.backend.daeng_nyang_connect.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,22 +27,20 @@ public class Review {
     @JoinColumn(name = "user_idx")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "animal_idx")
-    private Animal animal;
+    @OneToOne
+    @JoinColumn(name = "adopted_animal_idx")
+    private AdoptedAnimal adoptedAnimal;
 
     @Column(name = "text_review")
     private String textReview;
 
-    private Integer like;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "adopted_date")
-    private Date adoptedDate;
+    @Column(name = "review_like")
+    private Integer reviewLike;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<ReviewImage> images;
 }

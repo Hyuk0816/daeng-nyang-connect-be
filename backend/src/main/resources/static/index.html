@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인 및 회원 가입</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <div class="form-container" id="loginForm">
+    <h1>로그인</h1>
+    <label for="loginEmail">이메일:</label>
+    <input type="text" id="loginEmail" name="email" required>
+    <label for="loginPassword">비밀번호:</label>
+    <input type="password" id="loginPassword" name="password" required>
+    <button type="submit" id="loginButton">로그인</button>
+    <button id="gotoSignup">회원 가입</button>
+  </div>
+
+  <div class="form-container" id="signupForm" style="display: none;">
+    <h1>회원 가입</h1>
+    <label for="signupEmail">이메일:</label>
+    <input type="text" id="signupEmail" name="email" required>
+    <label for="signupPassword">비밀번호:</label>
+    <input type="password" id="signupPassword" name="password" required>
+    <button type="submit" id="signupButton">가입</button>
+  </div>
+</div>
+</body>
+<script src="script.js"></script>
+</html>

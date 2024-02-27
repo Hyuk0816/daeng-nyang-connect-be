@@ -1,5 +1,6 @@
 package com.git.backend.daeng_nyang_connect.review.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class ReviewImage {
     private Long reviewImageId;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "review_idx")
     private Review review;
 

@@ -11,6 +11,10 @@ java {
 	sourceCompatibility = '17'
 }
 
+compileJava {
+	options.compilerArgs << '-parameters'
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -33,6 +37,36 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+//	1. 웹소켓을 이용하기 위해 라이브러리 추가
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.security:spring-security-messaging'
+
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+	//redis 환경 구성
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	//aws
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+
+	//cache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation group: 'org.ehcache', name: 'ehcache', version: '3.1.0'
+	implementation 'javax.cache:cache-api:1.0.0'
+
+
+	//파일 이름 유틸
+	implementation 'commons-io:commons-io:2.11.0'
+
+	//swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	//javaXb
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
 }
 
 tasks.named('test') {

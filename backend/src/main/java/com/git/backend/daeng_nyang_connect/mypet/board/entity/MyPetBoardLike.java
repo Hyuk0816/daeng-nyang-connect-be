@@ -1,6 +1,5 @@
 package com.git.backend.daeng_nyang_connect.mypet.board.entity;
 
-import com.git.backend.daeng_nyang_connect.mate.board.entity.Mate;
 import com.git.backend.daeng_nyang_connect.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,5 +25,10 @@ public class MyPetBoardLike {
 
     @ManyToOne
     @JoinColumn(name = "my_pet_board_idx")
-    private MyPet mypet;
+    private MyPet myPet;
+
+    public MyPetBoardLike(MyPet myPet, User user) {
+        this.myPet = myPet;
+        this.user = user;
+    }
 }
